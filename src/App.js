@@ -1,5 +1,6 @@
 import 'babel-polyfill';
 import React, { Component } from 'react';
+import {Row , Col} from 'antd';
 import Header from './components/Header';
 import NavLeft from './components/NavLeft';
 
@@ -11,8 +12,16 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Header />
-        <NavLeft />
+        <Row style={{height:'64px'}}>
+          <Col>
+            <Header />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <NavLeft />
+          </Col>
+        </Row>
       </div>
     );
   }
