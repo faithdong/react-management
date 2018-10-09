@@ -3,3 +3,119 @@
   font-size: 16px !important;
   background-color: rgb(229, 244, 240) !important;
 }
+.sidebar-content{
+  height: 100vh;
+  width: 70px;
+  ul li{
+    list-style: none;
+  }
+  .u-menu {
+    outline: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    z-index: 99999;
+    /* border: 1px solid #d9d9d9;
+    box-shadow: 0 0 4px #d9d9d9;
+    border-radius: 3px; */
+    color: #666;
+    width: 100%;
+  }
+  .second-menu .u-menu-vertical.u-menu-sub {
+    background: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.20);
+    min-width: 407px;
+    z-index: 22;
+    padding: 10px 0 20px 0;
+    border-radius: 0;
+  }
+  .u-menu-item-active.u-menu-item>a {
+    color: #00936d;
+  }
+  .u-menu-max1 {
+    transition: all 0.3s ease-in-out;
+  }
+  .u-menu-submenu {
+    position: relative;
+  }
+  .u-menu-submenu-title{
+    padding: 0 10px;
+    height: 50px;
+    line-height: 50px;
+  }
+  .u-menu-item.u-menu-item-active,
+  .u-menu-submenu-title:hover {
+      background-color: #E5F4F0;
+      border: none;
+  }
+  .first-child {
+    text-decoration: none;
+    color: #666;
+    outline: 0;
+  }
+  .submenu-list{
+    position: absolute;
+    top:0px;
+    left:70px;
+    width:800px;
+  }
+  .arrow-menu{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: -2px;
+    top: 14px;
+    background: #fff;
+    /*box-shadow:0 0 20px rgba(0, 0, 0, 0.20);*/
+    transform: rotate(-315deg);
+    -ms-transform: rotate(-315deg);
+    /* IE 9 */
+    -moz-transform: rotate(-315deg);
+    /* Firefox */
+    -webkit-transform: rotate(-315deg);
+    /* Safari 和 Chrome */
+    -o-transform: rotate(-315deg);
+    /* Opera */
+    z-index: 1;
+  }
+  .u-menu-list {
+    width: 407px;
+    float: left;
+    margin-right: 20px;
+  }
+  .menu-prop{
+    padding: 10px 16px;
+    transition: all .3s ease;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    z-index: 22;
+    background: #fff;
+    display: block;
+    width: 100%;
+  }
+  .menu-popup>a:hover {
+    color: #00936D;
+    font-weight: bold;
+  }
+  .menu-popup .third-menu-content a:hover {
+    color: #00936D;
+    font-weight: bold;
+  }
+  .child-title {
+    color: #00936D;
+    text-decoration: none;
+    line-height: 30px;
+  }
+  .third-menu-content a {
+    margin-right: 5px;
+    cursor: pointer;
+    color: #666666;
+    text-decoration: none;
+    transition: all .3s ease;
+    line-height: 24px;
+  }
+  .third-menu-list  {
+    display: inline-block;
+    width: 80px;
+  }
+
+}

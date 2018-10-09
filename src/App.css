@@ -38,12 +38,26 @@
   height: 40px;
   line-height: 40px;
 }
-.head-info{
+
+.head-info {
   background: #00936D;
   font-size: 16px;
-  color:#fff;
+  color: #fff;
 }
-.ant-menu-item:hover{
-  color:#fff;
-  font-size:16px;
+
+.ant-menu-item:hover {
+  color: #fff;
+  font-size: 16px;
+}
+
+.content {
+  height: calc(100vh - 64px);
+  border-top: none;
+  width: 70px;
+  transition: all 0.3s ease-in-out;
+  position: fixed;
+  top: 64px;
+  border: none;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.24);
+  z-index: 2;
 }

@@ -13,14 +13,15 @@ class App extends Component {
     return (
       <div>
         <Row style={{height:'64px'}}>
-          <Col>
+          <Col span={24}>
             <Header />
           </Col>
         </Row>
-        <Row>
-          <Col>
+        <Row className="content">
+          <Col span={4}>
             <NavLeft />
           </Col>
+          <Col span={20}></Col>
         </Row>
       </div>
     );
