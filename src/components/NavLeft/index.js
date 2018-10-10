@@ -27,13 +27,14 @@ class NavLeft extends React.Component {
                 <div className="menu-prop">
                   <a className="child-title">标题</a>
                   <div className="third-menu-content">
-                    <ul classNam="third-menu-list">
+                    <ul className="third-menu-list">
                       <li><a>123</a></li>
                       <li><a>456</a></li>
                       <li><a>789</a></li>
                     </ul>
                   </div>
                 </div>
+                
               </li>
             </ul>
           </li>
