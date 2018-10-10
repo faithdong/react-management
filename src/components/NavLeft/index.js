@@ -21,7 +21,7 @@ class NavLeft extends React.Component {
             <div className="u-menu-submenu-title">
               <a>基础</a>
             </div>
-            <ul className="u-menu-vertical u-menu-sub u-menu-hidden submenu-list">
+            <ul className=" u-menu-vertical u-menu-sub submenu-list ">
               <li className="arrow-menu"></li>
               <li className="u-menu-list">
                 <div className="menu-prop">
@@ -34,7 +34,16 @@ class NavLeft extends React.Component {
                     </ul>
                   </div>
                 </div>
-                
+                <div className="menu-prop">
+                  <a className="child-title">标题</a>
+                  <div className="third-menu-content">
+                    <ul className="third-menu-list">
+                      <li><a>123</a></li>
+                      <li><a>456</a></li>
+                      <li><a>789</a></li>
+                    </ul>
+                  </div>
+                </div>
               </li>
             </ul>
           </li>
