@@ -2,7 +2,7 @@
  * @Author: zhongxd 
  * @Date: 2018-09-30 15:54:56 
  * @Last Modified by: zhongxd
- * @Last Modified time: 2018-10-16 17:28:56
+ * @Last Modified time: 2018-10-16 17:48:35
  * 左侧导航菜单
  */
 
@@ -66,9 +66,8 @@ class NavLeft extends React.Component {
     })
   }
 
-  handleMouseOver = () => {
-    this.setState({ isShow: true });
-    console.log("onMouseOver");
+  handleMouseOver = (e) => {
+    console.log(e);
   }
 
   handleMouseOut = () => {
@@ -84,8 +83,8 @@ class NavLeft extends React.Component {
     return data.map((item) => {
       if (item.children && item.children != null) {
         return (
-          <li className="second-menu u-menu-submenu-vertical u-menu-submenu" key={item.menuId}>
-            <div className="u-menu-submenu-title">
+          <li className="second-menu u-menu-submenu-vertical u-menu-submenu" key={item.menuId} onMouseOver={this.handleMouseOver}>
+            <div className="u-menu-submenu-title" >
               <a>{item.name}</a>
             </div>
             <ul className="u-menu-vertical u-menu-sub submenu-list" key={item.menuId}
