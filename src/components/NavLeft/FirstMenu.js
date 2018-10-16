@@ -2,11 +2,12 @@
  * @Author: zhongxd 
  * @Date: 2018-10-15 14:22:08 
  * @Last Modified by: zhongxd
- * @Last Modified time: 2018-10-15 14:37:03
+ * @Last Modified time: 2018-10-16 16:39:14
  * 一级菜单
  */
 
 import React from 'react';
+import Axios from './../../axios';
 
 class FirstMenu extends React.Component {
 
@@ -15,16 +16,16 @@ class FirstMenu extends React.Component {
     this.state = {};
   }
 
-  componentWillMount (){
-    debugger;
-    const firstMenuNode = this.renderFirstMenu(this.props.firstMenuItem);
-    this.setState({firstMenuNode});
+  componentWillMount() {
+    //const firstMenuItem = this.renderFirstMenu(this.props.firstMenuItem);
+    //this.setState({firstMenuItem});
   }
 
   renderFirstMenu = (data) => {
     return data.map((item) => {
       return (
-        <li className="second-menu u-menu-submenu-vertical u-menu-submenu" key={item.menuId}>
+        <li className="second-menu u-menu-submenu-vertical u-menu-submenu"
+          key={item.menuId}>
           <div className="u-menu-submenu-title">
             <a>{item.name}</a>
           </div>
@@ -35,9 +36,12 @@ class FirstMenu extends React.Component {
 
   render() {
     return (
-      <ul className="u-menu u-menu-max1">
-        {this.state.firstMenuItem}
-      </ul>
+      <li className="second-menu u-menu-submenu-vertical u-menu-submenu"
+        key={this.props.menuId}>
+        <div className="u-menu-submenu-title">
+          <a>{this.props.name}</a>
+        </div>
+      </li>
     )
   }
 }

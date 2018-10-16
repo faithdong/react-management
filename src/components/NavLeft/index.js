@@ -2,16 +2,16 @@
  * @Author: zhongxd 
  * @Date: 2018-09-30 15:54:56 
  * @Last Modified by: zhongxd
- * @Last Modified time: 2018-10-15 17:51:10
+ * @Last Modified time: 2018-10-16 17:28:56
  * 左侧导航菜单
  */
 
 import React from 'react';
 //import MenuConfig from './../../config/menuConfig';
 import Axios from './../../axios';
-//import FirstMenu from './FirstMenu';
+import FirstMenu from './FirstMenu';
 import SecondMenu from './SecondMenu';
-//import ThirdMenu from './ThirdMenu';
+import ThirdMenu from './ThirdMenu';
 //import Axios from 'axios';
 
 import './index.less';
@@ -20,10 +20,18 @@ import './index.less';
 class NavLeft extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {isShow:false};
+    this.state = { isShow: true };
   }
 
   componentWillMount() {
+    this.reqBarList();
+  }
+
+  componentDidMount() {
+
+  }
+
+  reqBarList = () => {
     let options = {
       url: 'sidebarList'
     };
@@ -33,6 +41,7 @@ class NavLeft extends React.Component {
       const menuTreeNode = this.renderMenu(res.data.data);
       this.setState({
         menuTreeNode
+        //menuData: res.data.data
       });
     });
   }
@@ -58,7 +67,7 @@ class NavLeft extends React.Component {
   }
 
   handleMouseOver = () => {
-    this.setState({isShow:true});
+    this.setState({ isShow: true });
     console.log("onMouseOver");
   }
 
@@ -67,22 +76,52 @@ class NavLeft extends React.Component {
   }
 
   handleMouseLeave = () => {
-    this.setState({isShow:false});
+    this.setState({ isShow: false });
     console.log("onMouseLeave");
   }
 
   renderMenu = (data) => {
     return data.map((item) => {
-      if (item.children) {
+      if (item.children && item.children != null) {
         return (
-          <li className="second-menu u-menu-submenu-vertical u-menu-submenu" 
-            key={item.menuId}
-            onMouseOver={this.handleMouseOver}
-            onMouseLeave={this.handleMouseLeave}>
+          <li className="second-menu u-menu-submenu-vertical u-menu-submenu" key={item.menuId}>
             <div className="u-menu-submenu-title">
               <a>{item.name}</a>
             </div>
-            <SecondMenu secondMenuItem={item.children} isShow={this.state.isShow}></SecondMenu>
+            <ul className="u-menu-vertical u-menu-sub submenu-list" key={item.menuId}
+              style={{ display: (this.props.isShow) ? 'block' : 'none' }}>
+              <li className="arrow-menu"></li>
+              {
+                item.children != null ?
+                  item.children.map((itemSecond) => {
+                    return (
+                      <li className="u-menu-list" key={itemSecond.key}>
+                          <div className="menu-prop">
+                            <a className="child-title">{itemSecond.name}</a>
+                            <div className="third-menu-content">
+                              <ul className="third-menu-list">
+                                {
+                                  itemSecond.children != null ?
+                                    itemSecond.children.map((itemThird) => {
+                                      return (
+                                        <li key={itemThird.menuId} style={{ width: '120px' }}>
+                                          <a>{itemThird.name}</a>
+                                        </li>
+                                      )
+                                    })
+                                    :
+                                    ''
+                                }
+                              </ul>
+                            </div>
+                          </div>
+                        </li>
+                    )
+                  })
+                  :
+                  ''
+              }
+            </ul>
           </li>
         )
       }
@@ -90,11 +129,20 @@ class NavLeft extends React.Component {
   }
 
   render() {
+
     return (
       <div className="sidebar-content">
         <ul className="u-menu u-menu-max1">
           {this.state.menuTreeNode}
         </ul>
+        
+        {/* <FirstMenu
+          onMouseOver={this.handleMouseOver}
+          onMouseLeave={this.handleMouseLeave}>
+          <SecondMenu>
+            <ThirdMenu></ThirdMenu>
+          </SecondMenu>
+        </FirstMenu> */}
         {/* <ul className="u-menu u-menu-max1">
           <li className="second-menu u-menu-submenu-vertical u-menu-submenu">
             <div className="u-menu-submenu-title">
