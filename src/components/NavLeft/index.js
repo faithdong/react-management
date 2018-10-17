@@ -80,17 +80,17 @@ class NavLeft extends React.Component {
     let thirdMenuArray = [[]];
     let tempMenuArray = [];
     let clientHeight = document.body.clientHeight;
-    item.map((itemSecond) => {
+    item.map((itemSecond , index) => {
       if (itemSecond && itemSecond.children && itemSecond.children.length > 0) {
         currentHeight = (itemSecond.children.length / 3) * 25 + 52 + currentHeight;
         if (currentHeight > clientHeight - 64) {
           thirdMenuListPagesIndex = thirdMenuListPagesIndex + 1;
           currentHeight = 0;
-          tempMenuArray.push(itemSecond.children);
+          tempMenuArray.push(itemSecond[index]);
           thirdMenuArray[thirdMenuListPagesIndex].push(tempMenuArray);
         } else {
           //thirdMenuArray[thirdMenuListPagesIndex].push(item.children);
-          tempMenuArray.push(itemSecond.children);
+          tempMenuArray.push(itemSecond[index]);
           thirdMenuArray[thirdMenuListPagesIndex].push(tempMenuArray);
           
         }
