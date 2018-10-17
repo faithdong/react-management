@@ -143,7 +143,7 @@ class NavLeft extends React.Component {
               style={{ display: 'none' }}>
               <li className="arrow-menu"></li>
               {
-                this.renderThirdMenu(item.children)
+                //this.renderThirdMenu(item.children)
                 /* item.children != null ?
                   item.children.map((itemSecond) => {
                     currentHeight = (itemSecond.children.length / 3 ) * 25 + 52 + currentHeight;
