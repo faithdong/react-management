@@ -18,7 +18,7 @@ class Header extends React.Component {
         <Row className="header-top">
           <Col span={12} className="logo">
             <img src="/assets/logo-ant.svg" alt="" />
-            <span>IMooc 通用管理系统</span>
+            <span>全友家居中台系统</span>
           </Col>
         </Row>
       </div>
