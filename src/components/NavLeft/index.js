@@ -39,8 +39,9 @@ class NavLeft extends React.Component {
 
     revPromise.then((res) => {
       const menuTreeNode = this.renderMenu(res.data.data);
+      const menuSecondNode = this.renderSecondMenu(menuTreeNode);
       this.setState({
-        menuTreeNode
+        menuTreeNode,
         //menuData: res.data.data
       });
     });
@@ -75,28 +76,38 @@ class NavLeft extends React.Component {
   }
 
   renderThirdMenu = (item) => {
+    debugger;
     let currentHeight = 0;
     let thirdMenuListPagesIndex = 0;
-    let thirdMenuArray = [[]];
+    let thirdMenuArray = [[],[],[]];
     let tempMenuArray = [];
     let clientHeight = document.body.clientHeight;
-    item.map((itemSecond , index) => {
+    item.map((itemSecond, index) => {
       if (itemSecond && itemSecond.children && itemSecond.children.length > 0) {
         currentHeight = (itemSecond.children.length / 3) * 25 + 52 + currentHeight;
         if (currentHeight > clientHeight - 64) {
           thirdMenuListPagesIndex = thirdMenuListPagesIndex + 1;
           currentHeight = 0;
-          tempMenuArray.push(itemSecond[index]);
-          thirdMenuArray[thirdMenuListPagesIndex].push(tempMenuArray);
+          tempMenuArray = tempMenuArray.concat(itemSecond.children);
+          thirdMenuArray[thirdMenuListPagesIndex] = tempMenuArray;
         } else {
-          //thirdMenuArray[thirdMenuListPagesIndex].push(item.children);
-          tempMenuArray.push(itemSecond[index]);
-          thirdMenuArray[thirdMenuListPagesIndex].push(tempMenuArray);
-          
+          tempMenuArray = tempMenuArray.concat(itemSecond.children);
+          thirdMenuArray[thirdMenuListPagesIndex] = tempMenuArray;
         }
       }
     });
-    return thirdMenuArray.map((itemSecond) => {
+    
+    console.log(thirdMenuArray);
+    return thirdMenuArray.map( (tItem,index) =>{
+       if(tItem.length > 0){
+        return(
+          <li className="u-menu-list" key={index}>
+           
+          </li>
+        )
+       }
+    });
+    /* return thirdMenuArray.map((itemSecond) => {
       if (itemSecond.children) {
         return (
           <li className="u-menu-list" key={itemSecond.menuId}>
@@ -122,13 +133,17 @@ class NavLeft extends React.Component {
           </li>
         )
       }
+    }) */
 
-    })
   }
 
   //动态渲染 导航菜单
   renderMenu = (data) => {
-
+    let currentHeight = 0;
+    let thirdMenuListPagesIndex = 0;
+    let thirdMenuArray = [];
+    let tempMenuArray = [];
+    let clientHeight = document.body.clientHeight;
     return data.map((item) => {
       if (item.children && item.children != null) {
         return (
@@ -144,43 +159,46 @@ class NavLeft extends React.Component {
               <li className="arrow-menu"></li>
               {
                 this.renderThirdMenu(item.children)
-                /* item.children != null ?
+                /* item.children && item.children.length > 0 ?
                   item.children.map((itemSecond) => {
-                    currentHeight = (itemSecond.children.length / 3 ) * 25 + 52 + currentHeight;
-                    if(currentHeight > clientHeight - 64){
-                      thirdMenuListPagesIndex = thirdMenuListPagesIndex + 1;
-                      currentHeight = 0;
-                      thirdMenuArray[thirdMenuListPagesIndex].push(item.children);
-                    }else{
-                      thirdMenuArray[thirdMenuListPagesIndex].push(item.children);
-                    }
+                    if (itemSecond.children && itemSecond.children.length > 0) {
+                      currentHeight = (itemSecond.children.length / 3) * 25 + 52 + currentHeight;
+                      if (currentHeight > clientHeight - 64) {
+                        thirdMenuListPagesIndex = thirdMenuListPagesIndex + 1;
+                        currentHeight = 0;
+                        thirdMenuArray[thirdMenuListPagesIndex].push(itemSecond.children);
+                      } else {
+                        thirdMenuArray[thirdMenuListPagesIndex].push(itemSecond.children);
+                      }
+                    } */
                     
-                    return (
+                  
+                    /* return (
                       <li className="u-menu-list" key={itemSecond.menuId}>
-                          <div className="menu-prop">
-                            <a className="child-title">{itemSecond.name}</a>
-                            <div className="third-menu-content">
-                              <ul className="third-menu-list">
-                                {
-                                  itemSecond.children != null ?
-                                    itemSecond.children.map((itemThird) => {
-                                      return (
-                                        <li key={itemThird.menuId} style={{ width: '120px' }}>
-                                          <a>{itemThird.name}</a>
-                                        </li>
-                                      )
-                                    })
-                                    :
-                                    ''
-                                }
-                              </ul>
-                            </div>
+                        <div className="menu-prop">
+                          <a className="child-title">{itemSecond.name}</a>
+                          <div className="third-menu-content">
+                            <ul className="third-menu-list">
+                              {
+                                itemSecond.children != null ?
+                                  itemSecond.children.map((itemThird) => {
+                                    return (
+                                      <li key={itemThird.menuId} style={{ width: '120px' }}>
+                                        <a>{itemThird.name}</a>
+                                      </li>
+                                    )
+                                  })
+                                  :
+                                  ''
+                              }
+                            </ul>
                           </div>
-                        </li>
-                    )
+                        </div>
+                      </li>
+                    ) 
                   })
                   :
-                  '' */
+                  ''*/
               }
             </ul>
           </li>
