@@ -53,7 +53,7 @@
 .content {
   height: calc(100vh - 64px);
   border-top: none;
-  width: 70px;
+  width: 100px;
   transition: all 0.3s ease-in-out;
   position: fixed;
   top: 64px;

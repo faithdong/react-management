@@ -39,7 +39,6 @@ class NavLeft extends React.Component {
 
     revPromise.then((res) => {
       const menuTreeNode = this.renderMenu(res.data.data);
-      const menuSecondNode = this.renderSecondMenu(menuTreeNode);
       this.setState({
         menuTreeNode,
         //menuData: res.data.data
@@ -69,6 +68,7 @@ class NavLeft extends React.Component {
 
   handleMouseOver = (e) => {
     e.currentTarget.children[1].style.display = "block";
+    e.currentTarget.children[1].style.width = "1400px";
   }
 
   handleMouseOut = (e) => {
@@ -76,36 +76,52 @@ class NavLeft extends React.Component {
   }
 
   renderThirdMenu = (item) => {
-    debugger;
     let currentHeight = 0;
     let thirdMenuListPagesIndex = 0;
-    let thirdMenuArray = [[],[],[]];
+    let thirdMenuArray = [[], [], []];
     let tempMenuArray = [];
     let clientHeight = document.body.clientHeight;
-    item.map((itemSecond, index) => {
+    item.map((itemSecond) => {
       if (itemSecond && itemSecond.children && itemSecond.children.length > 0) {
         currentHeight = (itemSecond.children.length / 3) * 25 + 52 + currentHeight;
         if (currentHeight > clientHeight - 64) {
           thirdMenuListPagesIndex = thirdMenuListPagesIndex + 1;
           currentHeight = 0;
-          tempMenuArray = tempMenuArray.concat(itemSecond.children);
-          thirdMenuArray[thirdMenuListPagesIndex] = tempMenuArray;
+          tempMenuArray = [];
+          tempMenuArray = tempMenuArray.concat(itemSecond);
+          thirdMenuArray[thirdMenuListPagesIndex].push(itemSecond);
         } else {
-          tempMenuArray = tempMenuArray.concat(itemSecond.children);
+          tempMenuArray = tempMenuArray.concat(itemSecond);
           thirdMenuArray[thirdMenuListPagesIndex] = tempMenuArray;
         }
-      }
-    });
-    
-    console.log(thirdMenuArray);
-    return thirdMenuArray.map( (tItem,index) =>{
-       if(tItem.length > 0){
-        return(
-          <li className="u-menu-list" key={index}>
-           
+      } else {
+        return (
+          <li className="u-menu-list" key={itemSecond.menuId}>
+            <div className="menu-prop">
+              <a className="child-title">{itemSecond.name}</a>
+              <div className="third-menu-content">
+                <ul className="third-menu-list">
+                  <li key={itemSecond.menuId} style={{ width: '120px' }}>
+                    <a>{itemSecond.name}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </li>
         )
-       }
+      }
+    });
+
+    return thirdMenuArray.map((tItem, index) => {
+      if (tItem.length > 0) {
+        return (
+          <li className="u-menu-list" key={index}>
+            {
+              this.renderLastMenu(tItem)
+            }
+          </li>
+        )
+      }
     });
     /* return thirdMenuArray.map((itemSecond) => {
       if (itemSecond.children) {
@@ -137,13 +153,38 @@ class NavLeft extends React.Component {
 
   }
 
+  renderLastMenu = (dataItems) => {
+    if (dataItems.length > 0) {
+      return dataItems.map((item) => {
+        if (item.children) {
+          return (
+            <div className="menu-prop">
+              <a className="child-title">{item.name}</a>
+              <div className="third-menu-content">
+                <ul className="third-menu-list">
+                  {
+                    item.children != null ?
+                      item.children.map((itemThird) => {
+                        return (
+                          <li key={itemThird.menuId} style={{ width: '120px' }}>
+                            <a>{itemThird.name}</a>
+                          </li>
+                        )
+                      })
+                      :
+                      ''
+                  }
+                </ul>
+              </div>
+            </div>
+          )
+        }
+      })
+    }
+  }
+
   //动态渲染 导航菜单
   renderMenu = (data) => {
-    let currentHeight = 0;
-    let thirdMenuListPagesIndex = 0;
-    let thirdMenuArray = [];
-    let tempMenuArray = [];
-    let clientHeight = document.body.clientHeight;
     return data.map((item) => {
       if (item.children && item.children != null) {
         return (
@@ -171,34 +212,34 @@ class NavLeft extends React.Component {
                         thirdMenuArray[thirdMenuListPagesIndex].push(itemSecond.children);
                       }
                     } */
-                    
-                  
-                    /* return (
-                      <li className="u-menu-list" key={itemSecond.menuId}>
-                        <div className="menu-prop">
-                          <a className="child-title">{itemSecond.name}</a>
-                          <div className="third-menu-content">
-                            <ul className="third-menu-list">
-                              {
-                                itemSecond.children != null ?
-                                  itemSecond.children.map((itemThird) => {
-                                    return (
-                                      <li key={itemThird.menuId} style={{ width: '120px' }}>
-                                        <a>{itemThird.name}</a>
-                                      </li>
-                                    )
-                                  })
-                                  :
-                                  ''
-                              }
-                            </ul>
-                          </div>
-                        </div>
-                      </li>
-                    ) 
-                  })
-                  :
-                  ''*/
+
+
+                /* return (
+                  <li className="u-menu-list" key={itemSecond.menuId}>
+                    <div className="menu-prop">
+                      <a className="child-title">{itemSecond.name}</a>
+                      <div className="third-menu-content">
+                        <ul className="third-menu-list">
+                          {
+                            itemSecond.children != null ?
+                              itemSecond.children.map((itemThird) => {
+                                return (
+                                  <li key={itemThird.menuId} style={{ width: '120px' }}>
+                                    <a>{itemThird.name}</a>
+                                  </li>
+                                )
+                              })
+                              :
+                              ''
+                          }
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                ) 
+              })
+              :
+              ''*/
               }
             </ul>
           </li>
@@ -208,7 +249,6 @@ class NavLeft extends React.Component {
   }
 
   render() {
-
     return (
       <div className="sidebar-content">
         <ul className="u-menu u-menu-max1">

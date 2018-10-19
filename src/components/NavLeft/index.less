@@ -8,7 +8,7 @@ ul li{
 }
 .sidebar-content{
   height: 100vh;
-  width: 70px;
+  width: 100px;
   ul li{
     list-style: none;
   }
@@ -42,6 +42,9 @@ ul li{
     padding: 0 10px;
     height: 50px;
     line-height: 50px;
+    overflow:hidden;
+    text-overflow:clip;
+    white-space:nowrap;
   }
   .u-menu-item.u-menu-item-active,
   .u-menu-submenu-title:hover {
@@ -56,7 +59,7 @@ ul li{
   .submenu-list{
     position: absolute;
     top:0px;
-    left:70px;
+    left:100px;
     width:auto;
   }
   .arrow-menu{
@@ -79,7 +82,7 @@ ul li{
     z-index: 1;
   }
   .u-menu .u-menu-vertical.u-menu-sub>li.u-menu-list {
-    width: auto;
+    width: 432px;
     float: left;
     margin-right: 10px;
   }

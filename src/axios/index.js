@@ -10,7 +10,7 @@
  export default class Axios {
    //es6新语法  定义静态方法
    static ajax(options){
-    let baseApi = ' https://www.easy-mock.com/mock/5bc0395f83119c50b9e1a644/example/';
+    let baseApi = 'https://www.easy-mock.com/mock/5bc94d9009e27a127bf1f0b7/example/';
     return new Promise((resolve,reject)=>{
       axios({
         url:baseApi + options.url,
