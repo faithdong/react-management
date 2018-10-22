@@ -2,18 +2,14 @@
  * @Author: zhongxd 
  * @Date: 2018-09-30 15:54:56 
  * @Last Modified by: zhongxd
- * @Last Modified time: 2018-10-16 17:48:35
+ * @Last Modified time: 2018-10-22 17:32:47
  * 左侧导航菜单
  */
 
 import React from 'react';
 //import MenuConfig from './../../config/menuConfig';
+import Utils from './../../utils/Utils';
 import Axios from './../../axios';
-import FirstMenu from './FirstMenu';
-import SecondMenu from './SecondMenu';
-import ThirdMenu from './ThirdMenu';
-//import Axios from 'axios';
-
 import './index.less';
 
 
@@ -24,13 +20,23 @@ class NavLeft extends React.Component {
   }
 
   componentWillMount() {
-    this.reqBarList();
+    let data = Utils.getLocalStorage("sidebarList");
+    if(data){
+      const menuTreeNode = this.renderMenu(data);
+      this.setState({
+        menuTreeNode,
+      });
+    }else{
+      this.reqBarList();
+    }
+    
   }
 
   componentDidMount() {
 
   }
 
+  //获取菜单列表
   reqBarList = () => {
     let options = {
       url: 'sidebarList'
@@ -46,29 +52,20 @@ class NavLeft extends React.Component {
     });
   }
 
-  renderSecondMenu = (data) => {
-    return data.map((item) => {
-      return (
-        <ul className=" u-menu-vertical u-menu-sub submenu-list" style={{ display: 'none' }}>
-          <li className="arrow-menu"></li>
-          <li className="u-menu-list">
-            <div className="menu-prop">
-              <a className="child-title" key={item.menuId}>{item.name}</a>
-              <div className="third-menu-content">
-                <ul className="third-menu-list">
-                  <li><a>{item.name}</a></li>
-                </ul>
-              </div>
-            </div>
-          </li>
-        </ul>
-      )
-    })
-  }
-
   handleMouseOver = (e) => {
+    //减去 <li className="arrow-menu" ></li>  只计算 <li className="u-menu-list"></li>生成了多少个
+    let count = e.currentTarget.children[1].children.length -1; 
+    if(count === 1){
+      this.disposeMenuShow(count , e);
+      e.currentTarget.children[1].style.width = "432px";
+    }else if(count === 2){
+      this.disposeMenuShow(count , e);
+      e.currentTarget.children[1].style.width = "900px";
+    }else {
+      this.disposeMenuShow(count , e);
+      e.currentTarget.children[1].style.width = "1400px";
+    }
     e.currentTarget.children[1].style.display = "block";
-    e.currentTarget.children[1].style.width = "1400px";
   }
 
   handleMouseOut = (e) => {
@@ -81,6 +78,22 @@ class NavLeft extends React.Component {
     let thirdMenuArray = [[], [], []];
     let tempMenuArray = [];
     let clientHeight = document.body.clientHeight;
+    if(item[0].children === null){
+      return (
+        <li className="u-menu-list" key={item.menuId}>
+          <div className="menu-prop">
+            <a className="child-title">{item[0].name}</a>
+            <div className="third-menu-content">
+              <ul className="third-menu-list">
+                <li style={{ width: '120px' }}>
+                  <a>{item[0].name}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      )
+    }
     item.map((itemSecond) => {
       if (itemSecond && itemSecond.children && itemSecond.children.length > 0) {
         currentHeight = (itemSecond.children.length / 3) * 25 + 52 + currentHeight;
@@ -96,12 +109,12 @@ class NavLeft extends React.Component {
         }
       } else {
         return (
-          <li className="u-menu-list" key={itemSecond.menuId}>
+          <li className="u-menu-list">
             <div className="menu-prop">
               <a className="child-title">{itemSecond.name}</a>
               <div className="third-menu-content">
                 <ul className="third-menu-list">
-                  <li key={itemSecond.menuId} style={{ width: '120px' }}>
+                  <li style={{ width: '120px' }}>
                     <a>{itemSecond.name}</a>
                   </li>
                 </ul>
@@ -111,11 +124,10 @@ class NavLeft extends React.Component {
         )
       }
     });
-
-    return thirdMenuArray.map((tItem, index) => {
+    return thirdMenuArray.map((tItem) => {
       if (tItem.length > 0) {
         return (
-          <li className="u-menu-list" key={index}>
+          <li className="u-menu-list" key={Utils.UUID()}>
             {
               this.renderLastMenu(tItem)
             }
@@ -123,34 +135,6 @@ class NavLeft extends React.Component {
         )
       }
     });
-    /* return thirdMenuArray.map((itemSecond) => {
-      if (itemSecond.children) {
-        return (
-          <li className="u-menu-list" key={itemSecond.menuId}>
-            <div className="menu-prop">
-              <a className="child-title">{itemSecond.name}</a>
-              <div className="third-menu-content">
-                <ul className="third-menu-list">
-                  {
-                    itemSecond.children != null ?
-                      itemSecond.children.map((itemThird) => {
-                        return (
-                          <li key={itemThird.menuId} style={{ width: '120px' }}>
-                            <a>{itemThird.name}</a>
-                          </li>
-                        )
-                      })
-                      :
-                      ''
-                  }
-                </ul>
-              </div>
-            </div>
-          </li>
-        )
-      }
-    }) */
-
   }
 
   renderLastMenu = (dataItems) => {
@@ -158,7 +142,7 @@ class NavLeft extends React.Component {
       return dataItems.map((item) => {
         if (item.children) {
           return (
-            <div className="menu-prop">
+            <div className="menu-prop" key={Utils.UUID()}>
               <a className="child-title">{item.name}</a>
               <div className="third-menu-content">
                 <ul className="third-menu-list">
@@ -197,50 +181,37 @@ class NavLeft extends React.Component {
             </div>
             <ul className="u-menu-vertical u-menu-sub submenu-list"
               style={{ display: 'none' }}>
-              <li className="arrow-menu"></li>
+              <li className="arrow-menu" ></li>
               {
                 this.renderThirdMenu(item.children)
-                /* item.children && item.children.length > 0 ?
-                  item.children.map((itemSecond) => {
-                    if (itemSecond.children && itemSecond.children.length > 0) {
-                      currentHeight = (itemSecond.children.length / 3) * 25 + 52 + currentHeight;
-                      if (currentHeight > clientHeight - 64) {
-                        thirdMenuListPagesIndex = thirdMenuListPagesIndex + 1;
-                        currentHeight = 0;
-                        thirdMenuArray[thirdMenuListPagesIndex].push(itemSecond.children);
-                      } else {
-                        thirdMenuArray[thirdMenuListPagesIndex].push(itemSecond.children);
-                      }
-                    } */
-
-
-                /* return (
-                  <li className="u-menu-list" key={itemSecond.menuId}>
-                    <div className="menu-prop">
-                      <a className="child-title">{itemSecond.name}</a>
-                      <div className="third-menu-content">
-                        <ul className="third-menu-list">
-                          {
-                            itemSecond.children != null ?
-                              itemSecond.children.map((itemThird) => {
-                                return (
-                                  <li key={itemThird.menuId} style={{ width: '120px' }}>
-                                    <a>{itemThird.name}</a>
-                                  </li>
-                                )
-                              })
-                              :
-                              ''
-                          }
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                ) 
-              })
-              :
-              ''*/
               }
+            </ul>
+          </li>
+        )
+      } else {
+        return (
+          <li className="second-menu u-menu-submenu-vertical u-menu-submenu"
+            key={item.menuId}
+            onMouseOver={this.handleMouseOver}
+            onMouseOut={this.handleMouseOut}>
+            <div className="u-menu-submenu-title" >
+              <a>{item.name}</a>
+            </div>
+            <ul className="u-menu-vertical u-menu-sub submenu-list"
+              style={{ display: 'none' }}>
+              <li className="arrow-menu" ></li>
+              <li className="u-menu-list">
+                <div className="menu-prop">
+                  <a className="child-title">{item.name}</a>
+                  <div className="third-menu-content">
+                    <ul className="third-menu-list">
+                      <li style={{ width: '120px' }}>
+                        <a>{item.name}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
             </ul>
           </li>
         )
@@ -248,42 +219,29 @@ class NavLeft extends React.Component {
     })
   }
 
-  render() {
+  //处理菜单显示 高度
+  disposeMenuShow = (count , el) =>{
+    let clientHeight = document.body.clientHeight;
+    //let viHeight = clientHeight - el.currentTarget.offsetTop;
+    
+    if(count === 1){
+      let len = el.currentTarget.children[1].children[0].length;
+      el.currentTarget.children[1].children[0].style.background = '#00936D';
+      el.currentTarget.children[1].children[0].style.top = el.currentTarget.offsetTop + 'px';
+      //el.currentTarget.children[1].style.top = '-'+ el.currentTarget.offsetTop + 'px';
+    }else{
+      el.currentTarget.children[1].children[0].style.background = '#00936D';
+      el.currentTarget.children[1].children[0].style.top = el.currentTarget.offsetTop + 'px';
+      el.currentTarget.children[1].style.top = '-'+ el.currentTarget.offsetTop + 'px';
+    }
+  }
+
+  render() {  
     return (
       <div className="sidebar-content">
         <ul className="u-menu u-menu-max1">
           {this.state.menuTreeNode}
         </ul>
-
-        {/* <FirstMenu
-          onMouseOver={this.handleMouseOver}
-          onMouseLeave={this.handleMouseLeave}>
-          <SecondMenu>
-            <ThirdMenu></ThirdMenu>
-          </SecondMenu>
-        </FirstMenu> */}
-        {/* <ul className="u-menu u-menu-max1">
-          <li className="second-menu u-menu-submenu-vertical u-menu-submenu">
-            <div className="u-menu-submenu-title">
-              <a>基础</a>
-            </div>
-            <ul className=" u-menu-vertical u-menu-sub submenu-list ">
-              <li className="arrow-menu"></li>
-              <li className="u-menu-list">
-                <div className="menu-prop">
-                  <a className="child-title">标题</a>
-                  <div className="third-menu-content">
-                    <ul className="third-menu-list">
-                      <li><a>123</a></li>
-                      <li><a>456</a></li>
-                      <li><a>789</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul> */}
       </div>
     )
   }
