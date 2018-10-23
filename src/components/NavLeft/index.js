@@ -69,6 +69,7 @@ class NavLeft extends React.Component {
       this.disposeMenuShow(count, e);
       e.currentTarget.children[1].style.width = "1400px";
     }
+    //e.currentTarget.children[1].children[0].style.background = '#00936D';
     //e.currentTarget.children[1].style.display = "block"; // ---> 写在这里就不能 此元素的高度
   }
 
@@ -173,7 +174,7 @@ class NavLeft extends React.Component {
 
   //动态渲染 导航菜单
   renderMenu = (data) => {
-    return data.map((item) => {
+    return data.map((item,index) => {
       if (item.children && item.children != null) {
         return (
           <li className="second-menu u-menu-submenu-vertical u-menu-submenu"
@@ -183,9 +184,9 @@ class NavLeft extends React.Component {
             <div className="u-menu-submenu-title" >
               <a>{item.name}</a>
             </div>
+            <span className="arrow-menu" style={{ display: 'none' }}></span>
             <ul className="u-menu-vertical u-menu-sub submenu-list"
               style={{ display: 'none' }}>
-              <li className="arrow-menu" ></li>
               {
                 this.renderThirdMenu(item.children)
               }
@@ -201,9 +202,9 @@ class NavLeft extends React.Component {
             <div className="u-menu-submenu-title" >
               <a>{item.name}</a>
             </div>
+            <span className="arrow-menu" style={{ display: 'none' }} ></span>
             <ul className="u-menu-vertical u-menu-sub submenu-list"
               style={{ display: 'none' }}>
-              <li className="arrow-menu" ></li>
               <li className="u-menu-list">
                 <div className="menu-prop">
                   <a className="child-title">{item.name}</a>
@@ -233,15 +234,9 @@ class NavLeft extends React.Component {
 
     //el.currentTarget.children[1].children[0].style.top = menuElTop + menuElHeight / 2 + 'px';
     //el.currentTarget.children[1].style.top = '-'+ menuElTop + 'px';
-    el.currentTarget.children[1].children[0].style.background = '#00936D';
+    //el.currentTarget.children[1].children[0].style.background = '#00936D';
 
-    if(ulEleHeight > menuHeight){
-      el.currentTarget.children[1].children[0].style.top = menuElTop + menuElHeight / 2 + 'px';
-      el.currentTarget.children[1].style.top = '-' + menuElTop + 'px';
-    }else{
-      el.currentTarget.children[1].children[0].style.top = menuElTop  + 'px';
-      el.currentTarget.children[1].style.top = '-' + (menuElTop - (menuHeight - ulEleHeight)) + 'px';
-    }
+    
   }
 
   render() {
