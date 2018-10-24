@@ -96,7 +96,7 @@ class NavLeft extends React.Component {
             <div className="third-menu-content">
               <ul className="third-menu-list">
                 <li style={{ width: '120px' }}>
-                  <a>{item[0].name}</a>
+                  <a onClick={this.handleClick.bind(this, item[0])}>{item[0].name}</a>
                 </li>
               </ul>
             </div>
@@ -125,7 +125,7 @@ class NavLeft extends React.Component {
               <div className="third-menu-content">
                 <ul className="third-menu-list">
                   <li style={{ width: '120px' }}>
-                    <a>{itemSecond.name}</a>
+                    <a >{itemSecond.name}</a>
                   </li>
                 </ul>
               </div>
@@ -161,7 +161,7 @@ class NavLeft extends React.Component {
                       item.children.map((itemThird) => {
                         return (
                           <li key={itemThird.menuId} style={{ width: '120px' }}>
-                            <a>{itemThird.name}</a>
+                            <a onClick={this.handleClick.bind(this, itemThird)}>{itemThird.name}</a>
                           </li>
                         )
                       })
@@ -177,9 +177,15 @@ class NavLeft extends React.Component {
     }
   }
 
+  handleClick(item) {
+    if (this.props.menuItemClick) {
+      this.props.menuItemClick(item);
+    }
+  }
+
   //动态渲染 导航菜单
   renderMenu = (data) => {
-    return data.map((item,index) => {
+    return data.map((item, index) => {
       if (item.children && item.children != null) {
         return (
           <li className="second-menu u-menu-submenu-vertical u-menu-submenu"
@@ -216,7 +222,7 @@ class NavLeft extends React.Component {
                   <div className="third-menu-content">
                     <ul className="third-menu-list">
                       <li style={{ width: '120px' }}>
-                        <a>{item.name}</a>
+                        <a onClick={this.handleClick.bind(this, item)}>{item.name}</a>
                       </li>
                     </ul>
                   </div>
@@ -237,15 +243,15 @@ class NavLeft extends React.Component {
     let ulEleHeight = el.currentTarget.children[2].offsetHeight; //(三级菜单) 高度
 
     //这里是处理 菜单项很多的时候，需要调整菜单 显示位置
-    if(menuHeight < (menuElTop + ulEleHeight)){
+    if (menuHeight < (menuElTop + ulEleHeight)) {
       let bottomHeight = menuHeight - menuElTop;
       let overflowHeight = ulEleHeight - bottomHeight;
-      if(bottomHeight < menuElTop){
-        el.currentTarget.children[2].style.top =  '-' + overflowHeight +'px';
-      }else{
-        el.currentTarget.children[2].style.top =  '-' + menuElTop +'px';
+      if (bottomHeight < menuElTop) {
+        el.currentTarget.children[2].style.top = '-' + overflowHeight + 'px';
+      } else {
+        el.currentTarget.children[2].style.top = '-' + menuElTop + 'px';
       }
-      
+
     }
   }
 

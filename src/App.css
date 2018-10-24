@@ -53,11 +53,16 @@
 .content {
   height: calc(100vh - 64px);
   border-top: none;
-  width: 100px;
-  transition: all 0.3s ease-in-out;
+  width: 100%;
   position: fixed;
   top: 64px;
   border: none;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.24);
   z-index: 2;
+}
+.menu-left{
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.24);
+}
+.cmt-right {
+  padding-left: 1px;
 }
