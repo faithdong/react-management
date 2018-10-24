@@ -32,7 +32,6 @@ class TabsMenu extends React.Component {
   componentWillReceiveProps(nextProps){
     debugger
     console.log(nextProps);
-    this.on
   }
   
 
@@ -49,6 +48,7 @@ class TabsMenu extends React.Component {
   }
 
   onEdit = (targetKey, action) => {
+    debugger;
     this[action](targetKey);
   }
 
