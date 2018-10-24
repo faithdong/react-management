@@ -54,20 +54,24 @@ class NavLeft extends React.Component {
     });
   }
 
+  /**
+   * 方法里面的 1 和 2 都是 固定的，因为在html渲染时，都会生成固定模板
+   */
   handleMouseOver = (e) => {
     //减去 <li className="arrow-menu" ></li>  只计算 <li className="u-menu-list"></li>生成了多少个
-    let count = e.currentTarget.children[1].children.length - 1;
+    let count = e.currentTarget.children[2].children.length;
     //先 block 显示， 否则在 计算时不能获取这个元素的高度
+    e.currentTarget.children[2].style.display = "block";
     e.currentTarget.children[1].style.display = "block";
     if (count === 1) {
-      this.disposeMenuShow(count, e);
-      e.currentTarget.children[1].style.width = "432px";
+      this.disposeMenuShow(e);
+      e.currentTarget.children[2].style.width = "432px";
     } else if (count === 2) {
-      this.disposeMenuShow(count, e);
-      e.currentTarget.children[1].style.width = "900px";
+      this.disposeMenuShow(e);
+      e.currentTarget.children[2].style.width = "900px";
     } else {
-      this.disposeMenuShow(count, e);
-      e.currentTarget.children[1].style.width = "1400px";
+      this.disposeMenuShow(e);
+      e.currentTarget.children[2].style.width = "1400px";
     }
     //e.currentTarget.children[1].children[0].style.background = '#00936D';
     //e.currentTarget.children[1].style.display = "block"; // ---> 写在这里就不能 此元素的高度
@@ -75,6 +79,7 @@ class NavLeft extends React.Component {
 
   handleMouseOut = (e) => {
     e.currentTarget.children[1].style.display = "none";
+    e.currentTarget.children[2].style.display = "none";
   }
 
   renderThirdMenu = (item) => {
@@ -224,19 +229,24 @@ class NavLeft extends React.Component {
     })
   }
 
-  //处理菜单显示 高度
-  disposeMenuShow = (count, el) => {
+  //处理菜单项显示 高度
+  disposeMenuShow = (el) => {
     let clientHeight = document.body.clientHeight;//浏览器可见高度
     let menuHeight = clientHeight - 64; //64 是头部所占的高度--> 内容区(包含菜单)实际的高度
     let menuElTop = el.currentTarget.offsetTop; //(二级菜单)元素距离顶部距离
-    let menuElHeight = el.currentTarget.offsetHeight; //(二级菜单)元素本身高度
-    let ulEleHeight = el.currentTarget.children[1].offsetHeight; //(三级菜单) 高度
+    let ulEleHeight = el.currentTarget.children[2].offsetHeight; //(三级菜单) 高度
 
-    //el.currentTarget.children[1].children[0].style.top = menuElTop + menuElHeight / 2 + 'px';
-    //el.currentTarget.children[1].style.top = '-'+ menuElTop + 'px';
-    //el.currentTarget.children[1].children[0].style.background = '#00936D';
-
-    
+    //这里是处理 菜单项很多的时候，需要调整菜单 显示位置
+    if(menuHeight < (menuElTop + ulEleHeight)){
+      let bottomHeight = menuHeight - menuElTop;
+      let overflowHeight = ulEleHeight - bottomHeight;
+      if(bottomHeight < menuElTop){
+        el.currentTarget.children[2].style.top =  '-' + overflowHeight +'px';
+      }else{
+        el.currentTarget.children[2].style.top =  '-' + menuElTop +'px';
+      }
+      
+    }
   }
 
   render() {
