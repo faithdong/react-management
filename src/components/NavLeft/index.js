@@ -16,8 +16,10 @@ import './index.less';
 class NavLeft extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isShow: true };
+    this.state = {};
   }
+
+  static navaMenuItem ;
 
   componentWillMount() {
     let data = Utils.getLocalStorage("sidebarList");
@@ -57,7 +59,8 @@ class NavLeft extends React.Component {
   /**
    * 方法里面的 1 和 2 都是 固定的，因为在html渲染时，都会生成固定模板
    */
-  handleMouseOver = (e) => {
+  handleMouseEnter(e){
+    NavLeft.navaMenuItem = e;
     //减去 <li className="arrow-menu" ></li>  只计算 <li className="u-menu-list"></li>生成了多少个
     let count = e.currentTarget.children[2].children.length;
     //先 block 显示， 否则在 计算时不能获取这个元素的高度
@@ -77,7 +80,7 @@ class NavLeft extends React.Component {
     //e.currentTarget.children[1].style.display = "block"; // ---> 写在这里就不能 此元素的高度
   }
 
-  handleMouseOut = (e) => {
+  handleMouseLeave(e){
     e.currentTarget.children[1].style.display = "none";
     e.currentTarget.children[2].style.display = "none";
   }
@@ -177,10 +180,12 @@ class NavLeft extends React.Component {
     }
   }
 
-  handleClick(item) {
+  handleClick(item,event) {
     if (this.props.menuItemClick) {
       this.props.menuItemClick(item);
     }
+    event.currentTarget.offsetParent.offsetParent.previousSibling.style.display = 'none';
+    event.currentTarget.offsetParent.offsetParent.style.display = 'none';
   }
 
   //动态渲染 导航菜单
@@ -190,8 +195,8 @@ class NavLeft extends React.Component {
         return (
           <li className="second-menu u-menu-submenu-vertical u-menu-submenu"
             key={item.menuId}
-            onMouseOver={this.handleMouseOver}
-            onMouseOut={this.handleMouseOut}>
+            onMouseEnter={this.handleMouseEnter.bind(this)}
+            onMouseLeave={this.handleMouseLeave.bind(this)}>
             <div className="u-menu-submenu-title" >
               <a>{item.name}</a>
             </div>
@@ -208,8 +213,8 @@ class NavLeft extends React.Component {
         return (
           <li className="second-menu u-menu-submenu-vertical u-menu-submenu"
             key={item.menuId}
-            onMouseOver={this.handleMouseOver}
-            onMouseOut={this.handleMouseOut}>
+            onMouseEnter={this.handleMouseEnter.bind(this)}
+            onMouseLeave={this.handleMouseLeave.bind(this)}>
             <div className="u-menu-submenu-title" >
               <a>{item.name}</a>
             </div>

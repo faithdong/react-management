@@ -17,7 +17,6 @@ class App extends Component {
   }
 
   handleClickMenuItem(menuItem){
-    console.log(menuItem);
     this.setState({menuItem});
   }
   render() {

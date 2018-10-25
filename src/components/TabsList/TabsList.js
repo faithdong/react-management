@@ -26,20 +26,19 @@ class TabsMenu extends React.Component {
   }
 
   static defaultProps = {
-    menuItem:{}
+    menuItem: {}
   }
 
-  componentWillReceiveProps(nextProps){
-    debugger
-    console.log(nextProps);
+  componentWillReceiveProps(nextProps) {
+    this.onEdit(nextProps.menuItem, "add");
   }
-  
 
-  renderTabMenu = (data)=>{
-    if(data){
-      return data.map( (pane) =>{
-        if(pane){
-          return(
+
+  renderTabMenu = (data) => {
+    if (data) {
+      return data.map((pane) => {
+        if (pane) {
+          return (
             <TabPane tab={pane.title} key={pane.key}></TabPane>
           )
         }
@@ -47,15 +46,46 @@ class TabsMenu extends React.Component {
     }
   }
 
+  onChange = (activeKey) => {
+    this.setState({ activeKey });
+  }
+
   onEdit = (targetKey, action) => {
-    debugger;
     this[action](targetKey);
   }
 
-  add = () =>{
+  add = (targetKey) => {
     const panes = this.state.panes;
-    const activeKey = `newTab${this.newTabIndex++}`;
-    panes.push({ title: 'New Tab', content: 'Content of new Tab', key: activeKey });
+    let activeKey;
+    if (targetKey) {
+      let hasTargetKey = panes.some((pane) => {
+        return pane.key === targetKey.menuId;
+      });
+      if (hasTargetKey === false) {
+        activeKey = targetKey.menuId;
+        panes.push({ title: targetKey.name ? targetKey.name : 'New Tab', key: activeKey });
+        this.setState({ panes, activeKey });
+      }
+    } else {
+      activeKey = `newTab${this.newTabIndex++}`;
+      panes.push({ title: targetKey.name ? targetKey.name : 'New Tab', key: activeKey });
+      this.setState({ panes, activeKey });
+    }
+
+  }
+
+  remove = (targetKey) => {
+    let activeKey = this.state.activeKey;
+    let lastIndex;
+    this.state.panes.forEach((pane, i) => {
+      if (pane.key === targetKey) {
+        lastIndex = i - 1;
+      }
+    });
+    const panes = this.state.panes.filter(pane => pane.key !== targetKey);
+    if (lastIndex >= 0 && activeKey === targetKey) {
+      activeKey = panes[lastIndex].key;
+    }
     this.setState({ panes, activeKey });
   }
 
@@ -63,10 +93,12 @@ class TabsMenu extends React.Component {
     return (
       <div>
         <Tabs
+          hideAdd
           type="editable-card"
+          onChange={this.onChange}
           onEdit={this.onEdit} >
           <TabPane tab="首页" key="5555" closable={false}></TabPane>
-            {this.renderTabMenu(this.state.panes)}
+          {this.renderTabMenu(this.state.panes)}
         </Tabs>
       </div>
     )
