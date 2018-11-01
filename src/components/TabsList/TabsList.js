@@ -2,7 +2,7 @@
  * @Author: zhongxd 
  * @Date: 2018-10-24 14:28:16 
  * @Last Modified by: zhongxd
- * @Last Modified time: 2018-10-24 15:30:04
+ * @Last Modified time: 2018-11-01 23:34:13
  * 标签页
  */
 
@@ -31,6 +31,7 @@ class TabsMenu extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.onEdit(nextProps.menuItem, "add");
+    //this.setState({panes:this.state.panes.push(nextProps.menuItem)});
   }
 
 
@@ -39,7 +40,7 @@ class TabsMenu extends React.Component {
       return data.map((pane) => {
         if (pane) {
           return (
-            <TabPane tab={pane.title} key={pane.key}></TabPane>
+            <TabPane tab={pane.title} key={pane.key}>{pane.content}</TabPane>
           )
         }
       })
@@ -59,16 +60,16 @@ class TabsMenu extends React.Component {
     let activeKey;
     if (targetKey) {
       let hasTargetKey = panes.some((pane) => {
-        return pane.key === targetKey.menuId;
+        return pane.key === targetKey.key;
       });
       if (hasTargetKey === false) {
-        activeKey = targetKey.menuId;
-        panes.push({ title: targetKey.name ? targetKey.name : 'New Tab', key: activeKey });
+        activeKey = targetKey.key;
+        panes.push(targetKey);
         this.setState({ panes, activeKey });
       }
     } else {
       activeKey = `newTab${this.newTabIndex++}`;
-      panes.push({ title: targetKey.name ? targetKey.name : 'New Tab', key: activeKey });
+      panes.push({ title: targetKey.title ? targetKey.title : 'New Tab', key: activeKey });
       this.setState({ panes, activeKey });
     }
 

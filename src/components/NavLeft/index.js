@@ -2,16 +2,20 @@
  * @Author: zhongxd 
  * @Date: 2018-09-30 15:54:56 
  * @Last Modified by: zhongxd
- * @Last Modified time: 2018-10-22 17:32:47
+ * @Last Modified time: 2018-11-01 23:40:10
  * 左侧导航菜单
  */
 
 import React from 'react';
+import { createBrowserHistory } from "history";
 //import MenuConfig from './../../config/menuConfig';
 import Utils from './../../utils/Utils';
 import Axios from './../../axios';
 import './index.less';
+import About from '../../pages/About';
 
+
+const history = createBrowserHistory();
 
 class NavLeft extends React.Component {
   constructor(props) {
@@ -19,7 +23,7 @@ class NavLeft extends React.Component {
     this.state = {};
   }
 
-  static navaMenuItem ;
+  static navaMenuItem;
 
   componentWillMount() {
     let data = Utils.getLocalStorage("sidebarList");
@@ -59,7 +63,7 @@ class NavLeft extends React.Component {
   /**
    * 方法里面的 1 和 2 都是 固定的，因为在html渲染时，都会生成固定模板
    */
-  handleMouseEnter(e){
+  handleMouseEnter(e) {
     NavLeft.navaMenuItem = e;
     //减去 <li className="arrow-menu" ></li>  只计算 <li className="u-menu-list"></li>生成了多少个
     let count = e.currentTarget.children[2].children.length;
@@ -80,7 +84,7 @@ class NavLeft extends React.Component {
     //e.currentTarget.children[1].style.display = "block"; // ---> 写在这里就不能 此元素的高度
   }
 
-  handleMouseLeave(e){
+  handleMouseLeave(e) {
     e.currentTarget.children[1].style.display = "none";
     e.currentTarget.children[2].style.display = "none";
   }
@@ -164,7 +168,9 @@ class NavLeft extends React.Component {
                       item.children.map((itemThird) => {
                         return (
                           <li key={itemThird.menuId} style={{ width: '120px' }}>
-                            <a onClick={this.handleClick.bind(this, itemThird)}>{itemThird.name}</a>
+                            <a onClick={this.handleClick.bind(this, itemThird)}>
+                              {itemThird.name}
+                            </a>
                           </li>
                         )
                       })
@@ -180,10 +186,20 @@ class NavLeft extends React.Component {
     }
   }
 
-  handleClick(item,event) {
+  renderComponent = () =>{
+    return(
+      <About />
+    )
+  }
+
+  handleClick(item, event) {
     if (this.props.menuItemClick) {
+      item.title = item.name;
+      item.key = item.id;
+      item.content = this.renderComponent();
       this.props.menuItemClick(item);
     }
+    
     event.currentTarget.offsetParent.offsetParent.previousSibling.style.display = 'none';
     event.currentTarget.offsetParent.offsetParent.style.display = 'none';
   }
