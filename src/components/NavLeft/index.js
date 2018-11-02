@@ -7,15 +7,14 @@
  */
 
 import React from 'react';
-import { createBrowserHistory } from "history";
 //import MenuConfig from './../../config/menuConfig';
 import Utils from './../../utils/Utils';
 import Axios from './../../axios';
 import './index.less';
-import About from '../../pages/About';
 
 
-const history = createBrowserHistory();
+
+
 
 class NavLeft extends React.Component {
   constructor(props) {
@@ -187,9 +186,12 @@ class NavLeft extends React.Component {
   }
 
   renderComponent = () =>{
-    return(
-      <About />
-    )
+    import('../../pages/About').then(mod => {
+      return mod.default;
+    }).catch(err => {
+        console.log('failed');
+    });
+    
   }
 
   handleClick(item, event) {

@@ -15,13 +15,9 @@ class TabsMenu extends React.Component {
   constructor(props) {
     super(props);
     this.newTabIndex = 0;
-    const panes = [
-      { title: 'Tab 1', content: 'Content of Tab Pane 1', key: '1' },
-      { title: 'Tab 2', content: 'Content of Tab Pane 2', key: '2' },
-    ];
     this.state = {
-      activeKey: panes[0].key,
-      panes,
+      panes:[],
+      activeKey: '#shouye'
     };
   }
 
@@ -31,7 +27,6 @@ class TabsMenu extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.onEdit(nextProps.menuItem, "add");
-    //this.setState({panes:this.state.panes.push(nextProps.menuItem)});
   }
 
 
@@ -97,9 +92,11 @@ class TabsMenu extends React.Component {
           hideAdd
           type="editable-card"
           onChange={this.onChange}
-          onEdit={this.onEdit} >
-          <TabPane tab="首页" key="5555" closable={false}></TabPane>
-          {this.renderTabMenu(this.state.panes)}
+          onEdit={this.onEdit} 
+          activeKey={this.state.activeKey}>
+          <TabPane tab='首页' key='#shouye' closable={false}>这是首页</TabPane>
+          {/* this.renderTabMenu(this.state.panes) */}
+          {this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key} closable={pane.closable}>{pane.content}</TabPane>)}
         </Tabs>
       </div>
     )
