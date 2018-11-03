@@ -9,6 +9,7 @@
 import React from 'react';
 //import MenuConfig from './../../config/menuConfig';
 import Utils from './../../utils/Utils';
+//import AsyncComponent from './../../utils/AsyncComponent';
 import Axios from './../../axios';
 import './index.less';
 
@@ -185,21 +186,20 @@ class NavLeft extends React.Component {
     }
   }
 
-  renderComponent = () =>{
-    import('../../pages/About').then(mod => {
-      return mod.default;
-    }).catch(err => {
-        console.log('failed');
-    });
-    
+  renderComponent = (item) =>{
+    //const A = AsyncComponent(() => import(/* webpackChunkName: "A" */'../../pages/About'));
+    //item.content = A;
+    //this.props.menuItemClick(item);
   }
 
   handleClick(item, event) {
     if (this.props.menuItemClick) {
       item.title = item.name;
       item.key = item.id;
-      item.content = this.renderComponent();
+      //this.renderComponent(item);
+      //item.content = A;
       this.props.menuItemClick(item);
+      
     }
     
     event.currentTarget.offsetParent.offsetParent.previousSibling.style.display = 'none';

@@ -1,12 +1,14 @@
 import 'babel-polyfill';
 import React, { Component } from 'react';
-import {Row , Col} from 'antd';
+import {Row , Col , Layout } from 'antd';
 import Header from './components/Header';
 import NavLeft from './components/NavLeft';
 import TabsList from './components/TabsList/TabsList';
+import { Route, Switch} from 'react-router-dom';
+import A from './pages/About';
 
 import './App.css';
-
+const { Content } = Layout;
 
 
 class App extends Component {
@@ -33,6 +35,11 @@ class App extends Component {
           </Col>
           <Col span={22} className="cmt-right">
             <TabsList menuItem={this.state.menuItem}/>
+            <Content>
+              <Switch>
+                <Route path="/a" component={A} />
+              </Switch>
+            </Content>
           </Col>
         </Row>
       </div>

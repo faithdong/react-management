@@ -12,7 +12,11 @@
 
 
 
- class About extends Component{
+ export default class About extends Component{
+
+  testFun = () =>{
+    console.log('about-test');
+  }
 
 	render(){
 		return(
@@ -23,4 +27,4 @@
 	}
  }
 
- export default About;
+// module.exports  = About;

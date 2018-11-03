@@ -9,6 +9,11 @@
 import React from 'react';
 import { Tabs } from 'antd';
 import './TabsList.less';
+import {createBrowserHistory} from 'history';
+//import AsyncComponent from '../utils/AsyncComponent';
+
+const history = createBrowserHistory();
+
 const TabPane = Tabs.TabPane;
 
 class TabsMenu extends React.Component {
@@ -61,6 +66,8 @@ class TabsMenu extends React.Component {
         activeKey = targetKey.key;
         panes.push(targetKey);
         this.setState({ panes, activeKey });
+        //const A = AsyncComponent(() => import(/* webpackChunkName: "A" */'../../pages/About'));
+        history.push('../../pages/About');
       }
     } else {
       activeKey = `newTab${this.newTabIndex++}`;
