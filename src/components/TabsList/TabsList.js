@@ -9,10 +9,12 @@
 import React from 'react';
 import { Tabs } from 'antd';
 import './TabsList.less';
-import {createBrowserHistory} from 'history';
+//import About from '../../pages/About';
 //import AsyncComponent from '../utils/AsyncComponent';
 
-const history = createBrowserHistory();
+import { asyncComponent } from '../../utils/AsyncComponent';
+
+
 
 const TabPane = Tabs.TabPane;
 
@@ -21,7 +23,7 @@ class TabsMenu extends React.Component {
     super(props);
     this.newTabIndex = 0;
     this.state = {
-      panes:[],
+      panes: [],
       activeKey: '#shouye'
     };
   }
@@ -55,6 +57,8 @@ class TabsMenu extends React.Component {
     this[action](targetKey);
   }
 
+
+
   add = (targetKey) => {
     const panes = this.state.panes;
     let activeKey;
@@ -64,10 +68,11 @@ class TabsMenu extends React.Component {
       });
       if (hasTargetKey === false) {
         activeKey = targetKey.key;
+        const Foo = asyncComponent(() => import(/* webpackChunkName: about */ "../../pages/About"));
+        targetKey.content = <Foo />;
         panes.push(targetKey);
         this.setState({ panes, activeKey });
-        //const A = AsyncComponent(() => import(/* webpackChunkName: "A" */'../../pages/About'));
-        history.push('../../pages/About');
+
       }
     } else {
       activeKey = `newTab${this.newTabIndex++}`;
@@ -99,7 +104,7 @@ class TabsMenu extends React.Component {
           hideAdd
           type="editable-card"
           onChange={this.onChange}
-          onEdit={this.onEdit} 
+          onEdit={this.onEdit}
           activeKey={this.state.activeKey}>
           <TabPane tab='首页' key='#shouye' closable={false}>这是首页</TabPane>
           {/* this.renderTabMenu(this.state.panes) */}

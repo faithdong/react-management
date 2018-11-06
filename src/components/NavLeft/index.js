@@ -9,12 +9,8 @@
 import React from 'react';
 //import MenuConfig from './../../config/menuConfig';
 import Utils from './../../utils/Utils';
-//import AsyncComponent from './../../utils/AsyncComponent';
 import Axios from './../../axios';
 import './index.less';
-
-
-
 
 
 class NavLeft extends React.Component {
@@ -186,7 +182,7 @@ class NavLeft extends React.Component {
     }
   }
 
-  renderComponent = (item) =>{
+  renderComponent = (item) => {
     //const A = AsyncComponent(() => import(/* webpackChunkName: "A" */'../../pages/About'));
     //item.content = A;
     //this.props.menuItemClick(item);
@@ -199,9 +195,9 @@ class NavLeft extends React.Component {
       //this.renderComponent(item);
       //item.content = A;
       this.props.menuItemClick(item);
-      
+
     }
-    
+
     event.currentTarget.offsetParent.offsetParent.previousSibling.style.display = 'none';
     event.currentTarget.offsetParent.offsetParent.style.display = 'none';
   }
@@ -244,8 +240,8 @@ class NavLeft extends React.Component {
                   <a className="child-title">{item.name}</a>
                   <div className="third-menu-content">
                     <ul className="third-menu-list">
-                      <li style={{ width: '120px' }}>
-                        <a onClick={this.handleClick.bind(this, item)}>{item.name}</a>
+                      <li style={{ width: '120px' }} onClick={this.handleClick.bind(this, item)}>
+                        {item.name}
                       </li>
                     </ul>
                   </div>
